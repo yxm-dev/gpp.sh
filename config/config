@@ -1,0 +1,123 @@
+#! /bin/bash
+
+# Declarations
+    declare -A GPP_max
+
+# Default remote, branch and commit message
+# they will be set if info is left blank
+    GPP_default_remote="origin"
+    GPP_default_branch="master"
+    GPP_default_commit="..."
+
+# Define associative array of parent directories for 
+# each platform you want to configure
+# OBS: for the list of valid platforms see ../files/platforms
+    declare -A GPP_parent
+
+# EXAMPLE:
+## GPP_parent["github"]="path/to/github"
+## GPP_parent["gitlab"]="path/to/gitlab"
+## ...
+
+# Define the user in each platform you wnat to configure
+    declare -A GPP_user
+
+# EXAMPLE:
+## GPP_user["github"]="user_github"
+## GPP_user["gitlab"]="user_gitlab"
+## ...
+
+# For each platform to be configured, define tuples of associative
+# arrays consisting of:
+# 1. relative paths to git initialized subdirectories
+# 2. remotes
+# 3. remotes repositories
+# 4. branches
+# 5. default commit message
+# 6. local directories you want to sync with the git initialized dirs
+# 7. aliases for such synchronization
+# OBS: if 2-5 are left blank, the info you will taken from the
+# variables "GPP_default_remote", etc., defined above
+# OBS: 6 and 7 are optional and can also be left blank
+# OBS: be sure to define aliases which are unique
+# OBS: you can define excludes and commands to run before or after the
+# synchronization. See the documentation.
+
+    declare -A GPP_init
+    declare -A GPP_remote
+    declare -A GPP_remote_repo
+    declare -A GPP_branch
+    declare -A GPP_commit
+    declare -A GPP_local
+    declare -A GPP_alias
+
+# EXAMPLE: one git initialized dir in github and two in gitlab
+## GPP_init["github",0]="subdir_github_0"
+## GPP_remote["github",0]="remote_github_0"
+## GPP_remote_repo["github",0]="repo_0"
+## GPP_branch["github",0]="branch_github_0"
+## GPP_commit["github",0]="commit_message_github_0"
+## GPP_local["github",0]="/path/to/some/local/dir"
+## GPP_alias["github",0]=alias_github_0
+
+## GPP_init["gitlab",0]="subdir_gitlab_0"
+## GPP_remote["gitlab",0]="remote_gitlab_0"
+## GPP_remote_repo["gitlab",0]="repo_0"
+## GPP_branch["gitlab",0]="branch_gitlab_0"
+## GPP_commit["gitlab",0]="commit_message_gitlab_0"
+## GPP_local["gitlab",0]="/path/to/other/local/dir_0"
+## GPP_alias["gitlab",0]=alias_gitlab_0
+
+## GPP_init["gitlab",1]="subdir_gitlab_1"
+## GPP_remote["gitlab",1]="remote_gitlab_1"
+## GPP_remote_repo["gitlab",1]="repo_1"
+## GPP_branch["gitlab",1]="branch_gitlab_1"
+## GPP_commit["gitlab",1]="commit_message_gitlab_1"
+## GPP_local["gitlab",1]="/path/to/other/local/dir_1"
+## GPP_alias["gitlab",1]=alias_gitlab_1
+
+# For each platform to be configured, enter the total number of
+# git subdirectories minus one.
+# OBS: this number is precisely the index of ${GPP_init[platform,@]}
+    declare -A GPP_max_init
+
+# EXAMPLE: one git initialized dir in github and two in gitlab
+## GPP_max_init[github]="0"
+## GPP_max_init[gitlab]="1"
+
+##### OPTIONAL: additional sync #####
+
+# For each configured platform, define triples of associative arrays
+# consisting of:
+# 1. local directories or local files
+# 2. subdirectories or files of git initilized directories
+# 3. unique aliases.
+# OBS: 1. will be synchronized with 2. using alias 3.
+# OBS: we say that an instace of 1+2+3 define a "sync triple"
+# OBS: you can define excludes and commands to run before or after the
+# synchronization. See the documentation.
+    declare -A GPP_source
+    declare -A GPP_target
+    declare -A GPP_other_alias
+
+# EXAMPLE: two sync triples in github and one in gitlab
+## GPP_source["github",0]="path/to/local_dir/"
+## GPP_target["github",0]="${GPP_init["github",0]}/subdir/"
+## GPP_other_alias["github",0]="alias_github_0"
+
+## GPP_source["github",1]="path/to/file"
+## GPP_target["github",1]="${GPP_init["github",1]}/file"
+## GPP_other_alias["github",0]="alias_github_1"
+
+## GPP_source["gilab",0]="path/to/local_dir/"
+## GPP_target["gitlab",0]="${GPP_init["gitlab",0]}/subdir"
+## GPP_other_alias["gitlab",0]="alias_gitlab_0"
+
+# For each platform to be configured, enter the total number of
+# sync triple minus one.
+# OBS: this number is precisely the index of ${GPP_alias[platform,@]}
+    declare -A GPP_max
+
+# EXAMPLE: two sync triples in github and one in gitlab
+## GPP_max[github]="1"
+## GPP_max[gitlab]="0"

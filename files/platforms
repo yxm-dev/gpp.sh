@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# array of valid VCS platforms
+declare -a GPP_platform
+GPP_platform[0]="github"
+GPP_platform[1]="gitlab"
+GPP_platform[2]="codeberg"
+GPP_platform[3]="bitbucket"
+GPP_platform[4]="sourceforge"
+
+# array of VCS platforms ssh urls
+declare -A GPP_platform_ssh
+GPP_platform_ssh["github"]="ssh://git@github.com"
+GPP_platform_ssh["gitlab"]="ssh://git@gitlab.com"
+GPP_platform_ssh["codeberg"]="ssh://git@codeberg.org"
+GPP_platform_ssh["bitbucket"]="ssh://git@bitbucket.org"
+GPP_platform_ssh["sourceforge"]="ssh://git@sourceforge.net"
