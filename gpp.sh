@@ -104,14 +104,14 @@ function gpp() {
             fi
         done
         if [[ -z "$has_branch" ]]; then
-            git branch -b $4
+            git checkout -b $4
         fi
         echo "Adding the files..."
         git add .
         echo "Commiting..."
         git commit -m "$2"
         echo "Pushing remote \"$3\" to branch \"$4\"..."
-        git push $3  $4
+        git push $3 $4 --force
         echo "Done!"
         echo "-------------------------"
     }
