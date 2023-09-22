@@ -1,6 +1,21 @@
-usage: PKG_name [options] [arguments] (general case)
-   or: PKG_name                       (interactive mode)
+usage: gpp [options] (arguments)      general case
 
-options:
-    -c, -cgf, --config                enter in the configuration mode
-    -h, --help                        display this help message
+options and (arguments):
+    none                              print this help message
+    -h,  --help                       print this help message
+    -c,  --config                     enter in the configuration mode
+    -cl, --clean                      clean temporary files
+    -t,  --template                   generate a template for the config file
+    -l,  --list
+         (-i,  --init)                list git initialized directories
+         (-r,  --remotes)             list remotes
+         (-a,  --aliases)             list all aliases 
+    -i,  --init                       initialize all pre-defined directories
+         (remote)                     initialize directories with given remote
+    -ra, --remote-add                 add pre-defined remotes
+         (remote)                     add given remote
+    -p,  --push                       push all pre-defined initialized directories
+         (alias)                      push git directory with given alias
+         (remote)                     push git directories with given remote
+    -a, --all                         clean temporary files, sync and push all pre-
+                                                              [defined directories.
