@@ -201,7 +201,6 @@ function gpp() {
         fi
     }
 
-
 ## GPP Function Propertly
     if [[ -z "$1" ]]; then
         cat $PKG_install_dir/config/help.txt
@@ -361,15 +360,11 @@ function gpp() {
                        [[ -n "${GPP_branch[$parent,$j]}" ]]; then
                         has_alias="ok"    
                         has_remote="ok"
-                        if [[ -n "${GPP_alias[$parent,$j]}" ]]; then
-                            if [[ "$2" == "${GPP_alias[$parent,$j]}" ]]; then
-                                GPP_push ${GPP_init_path[$parent,$j]} "${GPP_commit[$parent,$j]}" "${GPP_remote[$parent,$j]}" "${GPP_branch[$parent,$j]}"
-                                has_alias="ok"
-                                has_remote="ok"
-                                break
-                            else
-                                has_alias=""
-                            fi
+                        if [[ "$2" == "${GPP_alias[$parent,$j]}" ]]; then
+                            GPP_push ${GPP_init_path[$parent,$j]} "${GPP_commit[$parent,$j]}" "${GPP_remote[$parent,$j]}" "${GPP_branch[$parent,$j]}"
+                            has_alias="ok"
+                            has_remote="ok"
+                            break
                         elif [[ "$2" == "-r" ]] || [[ "$2" == "--remote" ]]; then
                             if [[ "$3" == "${GPP_remote[$parent,$j]}" ]]; then
                                 GPP_push ${GPP_init_path[$parent,$j]} "${GPP_commit[$parent,$j]}" "${GPP_remote[$parent,$j]}" "${GPP_branch[$parent,$j]}"
@@ -440,7 +435,7 @@ function gpp() {
                 done
             done
         else
-            echo "option not defined for the \"gpp()\" function."
+            echo "Option not defined for the \"gpp()\" function."
         fi
 ### clean, sync and push
     elif [[ "$1" == "-a" ]] || [[ "$1" == "--all" ]]; then
@@ -452,7 +447,7 @@ function gpp() {
         gpp -p
 ### error
     else
-        echo "option not defined for the \"GPP()\" function."
+        echo "Option not defined for the \"GPP()\" function."
     fi
 }
 
