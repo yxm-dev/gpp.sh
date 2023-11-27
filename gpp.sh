@@ -354,28 +354,42 @@ function gpp() {
         else
             for parent in ${!GPP_parent[@]}; do
                 for (( j=0; j <= ${GPP_max_init[$parent]}; j++ )); do
-                    if [[ -n "${GPP_init[$parent,$j]}" ]] &&
-                       [[ -n "${GPP_commit[$parent,$j]}" ]] &&
-                       [[ -n "${GPP_remote[$parent,$j]}" ]] &&
-                       [[ -n "${GPP_branch[$parent,$j]}" ]]; then
-                        has_alias="ok"    
-                        has_remote="ok"
-                        if [[ "$2" == "${GPP_alias[$parent,$j]}" ]]; then
-                            GPP_push ${GPP_init_path[$parent,$j]} "${GPP_commit[$parent,$j]}" "${GPP_remote[$parent,$j]}" "${GPP_branch[$parent,$j]}"
-                            has_alias="ok"
+                    for (( k=0; k <= ${GPP_max[$parent]}; k++ )); do
+                        if [[ -n "${GPP_init[$parent,$j]}" ]] &&
+                           [[ -n "${GPP_commit[$parent,$j]}" ]] &&
+                           [[ -n "${GPP_remote[$parent,$j]}" ]] &&
+                           [[ -n "${GPP_branch[$parent,$j]}" ]]; then
+                            has_alias="ok"    
                             has_remote="ok"
-                            break
-                        elif [[ "$2" == "-r" ]] || [[ "$2" == "--remote" ]]; then
-                            if [[ "$3" == "${GPP_remote[$parent,$j]}" ]]; then
+                            if [[ "$2" == "${GPP_alias[$parent,$k]}" ]]; then
                                 GPP_push ${GPP_init_path[$parent,$j]} "${GPP_commit[$parent,$j]}" "${GPP_remote[$parent,$j]}" "${GPP_branch[$parent,$j]}"
                                 has_alias="ok"
                                 has_remote="ok"
                                 break
+                                break
+                            elif [[ "$2" == "${GPP_alias_other[$parent,$k]}" ]]; then
+                                GPP_push ${GPP_init_path[$parent,$j]} "${GPP_commit[$parent,$j]}" "${GPP_remote[$parent,$j]}" "${GPP_branch[$parent,$j]}"
+                                has_alias="ok"
+                                has_remote="ok"
+                                break
+                                break
+                            elif [[ "$2" == "-r" ]] || [[ "$2" == "--remote" ]]; then
+                                if [[ "$3" == "${GPP_remote[$parent,$j]}" ]]; then
+                                    GPP_push ${GPP_init_path[$parent,$j]} "${GPP_commit[$parent,$j]}" "${GPP_remote[$parent,$j]}" "${GPP_branch[$parent,$j]}"
+                                    has_alias="ok"
+                                    has_remote="ok"
+                                    break
+                                    break
+                                else
+                                    has_remote=""
+                                    continue
+                                fi
                             else
-                                has_remote=""
+                                has_alias=""
+                                continue
                             fi
                         fi
-                    fi
+                    done
                 done
             done
             if [[ -z "$has_alias" ]]; then
@@ -447,10 +461,9 @@ function gpp() {
         gpp -p
 ### error
     else
-        echo "Option not defined for the \"GPP()\" function."
+        echo "Option not defined for the \"gpp()\" function."
     fi
 }
-
 # aliases
 alias gpph="gpp -h"
 alias gppc="gpp -c"
